@@ -1,0 +1,16 @@
+{
+  "name": "task_2",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "css-loader": "^6.0.0",
+    "file-loader": "^6.0.0",
+    "image-webpack-loader": "^8.0.0",
+    "style-loader": "^3.0.0",
+    "webpack": "^5.106.2",
+    "webpack-cli": "^5.1.4"
+  }
+}
