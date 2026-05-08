@@ -6,34 +6,30 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public'),
-    clean: true
   },
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+      test: /\.(css)$/,
+      use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|jpg|jpeg|gif)$/i,
-        type: 'asset',
-        parser: {
-          dataUrlCondition: {
-            maxSize: 8192
-          }
-        },
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        type: 'javascript/auto',
         use: [
-          {
-            loader: 'image-webpack-loader',
+          { loader: 'file-loader',
             options: {
-              mozjpeg: { progressive: true },
-              optipng: { enabled: true },
-              pngquant: { quality: [0.65, 0.9], speed: 4 },
-              gifsicle: { interlaced: false }
+              publicPath: './',
+              esModule: false,
             }
-          }
-        ]
-      }
-    ]
-  }
+          },
+          { loader: 'image-webpack-loader',
+            options: {
+
+            }
+          },
+        ],
+      },
+    ],
+  },
 };
