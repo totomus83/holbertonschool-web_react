@@ -14,7 +14,7 @@ function App() {
       </div>
 
       <div className='holberton-footer'>
-        <p>Copyright {new Date().getFullYear()} - holberton School</p>
+        <p>Copyright 2026 - Holberton School</p>
       </div>
     </>
   )
