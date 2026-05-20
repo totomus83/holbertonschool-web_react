@@ -1,0 +1,30 @@
+import React from 'react';
+import Notifications from './Notifications';
+import { getCurrentYear, getFooterCopy } from './utils';
+import HbSLogo from './assets/holberton-logo.jpg'
+import './App.css'
+
+function App() {
+  return (
+    <>
+      <div className='holberton-header'>
+        <img src={HbSLogo} alt="holberton logo" />
+        <h1>School dashboard</h1>
+      </div>
+
+      <div className='holberton-body'>
+        <p>Login to access the full dashboard</p>
+      </div>
+
+      <div className="root-notifications">
+        <Notifications />
+      </div>
+
+      <div className='holberton-footer'>
+        <p>Copyright {new Date().getFullYear()} - Holberton School</p>
+      </div>
+    </>
+  )
+}
+
+export default App;
