@@ -1,5 +1,21 @@
 .notification-items {
   border: 2px dashed red;
-  padding: 10px;
-  width: 300px;
+  padding: 15px;
+  width: 400px;
+  position: relative;
+}
+
+.notification-items ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.notification-items li {
+  margin-bottom: 8px;
+}
+
+.close-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
