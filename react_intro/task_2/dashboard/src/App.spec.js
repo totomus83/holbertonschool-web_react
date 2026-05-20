@@ -2,27 +2,30 @@ import { render, screen } from '@testing-library/react';
 import App from './App';
 
 describe('App component', () => {
-  test('Vérification texte h1 holberton-header', () => {
+  test('renders email and password inputs', () => {
     render(<App />);
-    const headerh1 = screen.getByRole('heading', { level: 1, name: /School dashboard/i });
-    expect(headerh1).toBeInTheDocument();
+
+    const inputs = screen.getAllByRole('textbox');
+    const passwordInput = screen.getByLabelText(/password/i);
+
+    expect(inputs.length).toBe(1); // email is textbox
+    expect(passwordInput).toBeInTheDocument();
   });
 
-  test('Vérification texte holberton-body', () => {
+  test('renders Email and Password labels', () => {
     render(<App />);
-    const bodyp = screen.getByText(/Login to access the full dashboard/i);
-    expect(bodyp).toBeInTheDocument();
+
+    const emailLabel = screen.getByText(/email/i);
+    const passwordLabel = screen.getByText(/password/i);
+
+    expect(emailLabel).toBeInTheDocument();
+    expect(passwordLabel).toBeInTheDocument();
   });
 
-  test('Vérification texte holberton-footer', () => {
+  test("renders OK button", () => {
     render(<App />);
-    const footerp = screen.getByText(/Copyright \d{4} - holberton School/i);
-    expect(footerp).toBeInTheDocument();
-  });
 
-  test('Vérification alt image holberton-header', () => {
-    render(<App />);
-    const headerImgAlt = screen.getByAltText(/holberton logo/i);
-    expect(headerImgAlt).toBeInTheDocument();
+    const button = screen.getByRole('button', { name: /ok/i });
+    expect(button).toBeInTheDocument();
   });
 });
