@@ -1,46 +1,50 @@
-import React from 'react';
-import Notifications from './Notifications';
-import { getCurrentYear, getFooterCopy } from './utils';
-import HbSLogo from './assets/holberton-logo.jpg';
-import './App.css';
+import { render, screen } from '@testing-library/react';
+import App from './App';
 
-function App() {
-  return (
-    <>
-      <div className="holberton-header">
-        <img src={HbSLogo} alt="holberton logo" />
-        <h1>School dashboard</h1>
-      </div>
+describe('App component', () => {
+  test('Vérification texte h1 App-header', () => {
+    render(<App />);
+    const headerh1 = screen.getByRole('heading', { level: 1, name: /School dashboard/i });
+    expect(headerh1).toBeInTheDocument();
+  });
 
-      <div className="holberton-body">
-        <p>Login to access the full dashboard</p>
+  test('Vérification texte App-body', () => {
+    render(<App />);
+    const bodyp = screen.getByText(/Login to access the full dashboard/i);
+    expect(bodyp).toBeInTheDocument();
+  });
 
-        {/* LOGIN FORM */}
-        <form>
-          {/* EMAIL */}
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" name="email" />
+  test('Vérification texte App-footer', () => {
+    render(<App />);
+    const footerp = screen.getByText(/Copyright \d{4} - holberton School/i);
+    expect(footerp).toBeInTheDocument();
+  });
 
-          {/* PASSWORD */}
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" />
+  test('Vérification alt image App-header', () => {
+    render(<App />);
+    const headerImgAlt = screen.getByAltText(/holberton logo/i);
+    expect(headerImgAlt).toBeInTheDocument();
+  });
 
-          {/* BUTTON */}
-          <button type="button">OK</button>
-        </form>
-      </div>
+  test('Vérification des inputs associés aux labels', () => {
+    render(<App />);
+    const emailInput = screen.getByLabelText(/email/i);
+    const passwordInput = screen.getByLabelText(/password/i);
+    expect(emailInput).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
+  });
 
-      <div className="root-notifications">
-        <Notifications />
-      </div>
+  test('Vérification du texte des labels', () => {
+    render(<App />);
+    const emailLabel = screen.getByLabelText(/email/i);
+    const passwordLabel = screen.getByLabelText(/password/i);
+    expect(emailLabel).toBeInTheDocument();
+    expect(passwordLabel).toBeInTheDocument();
+  });
 
-      <div className="holberton-footer">
-        <p>
-          Copyright {getCurrentYear()} - {getFooterCopy(true)}
-        </p>
-      </div>
-    </>
-  );
-}
-
-export default App;
+  test('Vérification du bouton', () => {
+    render(<App />);
+    const formButton = screen.getByRole('button', { name: /OK/i });
+    expect(formButton).toBeInTheDocument();
+  });
+});

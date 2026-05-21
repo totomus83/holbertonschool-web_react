@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://YOUR_GITHUB_USERNAME.github.io/holbertonschool-web_react",
+  "homepage": "https://totomus83.github.io/holbertonschool-web_react",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

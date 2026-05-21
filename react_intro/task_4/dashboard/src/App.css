@@ -1,36 +1,50 @@
 #root {
-  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.holberton-header {
+/************************* App-header *************************/
+.App-header {
   display: flex;
   border-bottom: #e1003c solid 2.5px;
 }
 
-.holberton-header img {
+.App-header img {
   width: 15%;
 }
 
-.holberton-header h1 {
+.App-header h1 {
   align-content: center;
   margin-left: 1rem;
-  color: #e0354c;
+  color: #e1003c;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.holberton-body {
+/************************** App-body **************************/
+.App-body {
   text-align: justify;
-  margin-left: 1rem;
-  border-bottom: #e0354c solid 2.5px;
+  border-bottom: #e1003c solid 2.5px;
   flex: 1;
-  height : 25rem;
 }
 
-.holberton-body p {
-  margin-top: 2rem;
+.App-body p {
+  margin-left: 1rem;
 }
 
-.holberton-footer {
+label[for='email'],
+label[for='password'],
+.App-body #email,
+.App-body #password {
+  margin-left: 0.5rem;
+}
+
+.App-body button {
+  margin-left: 1rem;
+}
+
+/************************* App-footer *************************/
+.App-footer {
   text-align: center;
   font-style: italic;
 }
