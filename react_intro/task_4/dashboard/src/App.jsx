@@ -1,50 +1,38 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import HbSLogo from './assets/holberton-logo.jpg';
+import { getCurrentYear, getFooterCopy } from './utils';
+import './App.css';
+import Notifications from './Notifications.jsx';
 
-describe('App component', () => {
-  test('Vérification texte h1 App-header', () => {
-    render(<App />);
-    const headerh1 = screen.getByRole('heading', { level: 1, name: /School dashboard/i });
-    expect(headerh1).toBeInTheDocument();
-  });
+function App() {
+  const currentYear = getCurrentYear();
+  const footerText = getFooterCopy(true);
+  return (
+    <>
+      <div className="root-notifications">
+        <Notifications/>
+      </div>
+      <div className='App-header'>
+        <img src={HbSLogo} alt="holberton logo" />
+        <h1>School dashboard</h1>
+      </div>
 
-  test('Vérification texte App-body', () => {
-    render(<App />);
-    const bodyp = screen.getByText(/Login to access the full dashboard/i);
-    expect(bodyp).toBeInTheDocument();
-  });
+      <div className='App-body'>
+        <p>Login to access the full dashboard</p>
 
-  test('Vérification texte App-footer', () => {
-    render(<App />);
-    const footerp = screen.getByText(/Copyright \d{4} - holberton School/i);
-    expect(footerp).toBeInTheDocument();
-  });
+        <label htmlFor="email">Email :</label>
+        <input type="email" name="email" id="email" />
 
-  test('Vérification alt image App-header', () => {
-    render(<App />);
-    const headerImgAlt = screen.getByAltText(/holberton logo/i);
-    expect(headerImgAlt).toBeInTheDocument();
-  });
+        <label htmlFor="password">Password :</label>
+        <input type="password" name="password" id="password" />
 
-  test('Vérification des inputs associés aux labels', () => {
-    render(<App />);
-    const emailInput = screen.getByLabelText(/email/i);
-    const passwordInput = screen.getByLabelText(/password/i);
-    expect(emailInput).toBeInTheDocument();
-    expect(passwordInput).toBeInTheDocument();
-  });
+        <button>OK</button>
+      </div>
 
-  test('Vérification du texte des labels', () => {
-    render(<App />);
-    const emailLabel = screen.getByLabelText(/email/i);
-    const passwordLabel = screen.getByLabelText(/password/i);
-    expect(emailLabel).toBeInTheDocument();
-    expect(passwordLabel).toBeInTheDocument();
-  });
+      <div className='App-footer'>
+        <p>Copyright {currentYear} - {footerText}</p>
+      </div>
+    </>
+  )
+}
 
-  test('Vérification du bouton', () => {
-    render(<App />);
-    const formButton = screen.getByRole('button', { name: /OK/i });
-    expect(formButton).toBeInTheDocument();
-  });
-});
+export default App
