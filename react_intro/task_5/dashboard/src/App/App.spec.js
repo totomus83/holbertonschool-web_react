@@ -2,30 +2,49 @@ import { render, screen } from '@testing-library/react';
 import App from './App';
 
 describe('App component', () => {
-  test('renders email and password inputs', () => {
+  test('Vérification texte h1 App-header', () => {
     render(<App />);
+    const headerh1 = screen.getByRole('heading', { level: 1, name: /School dashboard/i });
+    expect(headerh1).toBeInTheDocument();
+  });
 
-    const inputs = screen.getAllByRole('textbox');
+  test('Vérification texte App-body', () => {
+    render(<App />);
+    const bodyp = screen.getByText(/Login to access the full dashboard/i);
+    expect(bodyp).toBeInTheDocument();
+  });
+
+  test('Vérification texte App-footer', () => {
+    render(<App />);
+    const footerp = screen.getByText(/Copyright \d{4} - holberton School/i);
+    expect(footerp).toBeInTheDocument();
+  });
+
+  test('Vérification alt image App-header', () => {
+    render(<App />);
+    const headerImgAlt = screen.getByAltText(/holberton logo/i);
+    expect(headerImgAlt).toBeInTheDocument();
+  });
+
+  test('Vérification des inputs associés aux labels', () => {
+    render(<App />);
+    const emailInput = screen.getByLabelText(/email/i);
     const passwordInput = screen.getByLabelText(/password/i);
-
-    expect(inputs.length).toBe(1); // email is textbox
+    expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
   });
 
-  test('renders Email and Password labels', () => {
+  test('Vérification du texte des labels', () => {
     render(<App />);
-
-    const emailLabel = screen.getByText(/email/i);
-    const passwordLabel = screen.getByText(/password/i);
-
+    const emailLabel = screen.getByLabelText(/email/i);
+    const passwordLabel = screen.getByLabelText(/password/i);
     expect(emailLabel).toBeInTheDocument();
     expect(passwordLabel).toBeInTheDocument();
   });
 
-  test("renders OK button", () => {
+  test('Vérification du bouton', () => {
     render(<App />);
-
-    const button = screen.getByRole('button', { name: /ok/i });
-    expect(button).toBeInTheDocument();
+    const formButton = screen.getByRole('button', { name: /OK/i });
+    expect(formButton).toBeInTheDocument();
   });
 });

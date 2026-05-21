@@ -1,43 +1,31 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
 import Notifications from './Notifications';
+import { render, screen, fireEvent } from '@testing-library/react';
 
 describe('Notifications component', () => {
-
-  test('renders notifications title', () => {
+  test("Vérification de la présence du message 'Here is the list of notifications'", () => {
     render(<Notifications />);
-
-    const title = screen.getByText(/here is the list of notifications/i);
-    expect(title).toBeInTheDocument();
+    const notifTitle = screen.getByText(/Here is the list of notifications/i);
+    expect(notifTitle).toBeInTheDocument();
   });
 
-  test('renders close button', () => {
+  test('Vérification de la présence du bouton close', () => {
     render(<Notifications />);
-
-    const button = screen.getByRole('button', { name: /close/i });
-    expect(button).toBeInTheDocument();
+    const closeButton = screen.getByRole('button');
+    expect(closeButton).toBeInTheDocument();
   });
 
-  test('renders 3 notification list items', () => {
+  test('Vérification de la présence des 3 li', () => {
     render(<Notifications />);
-
-    const items = screen.getAllByRole('listitem');
-    expect(items.length).toBe(3);
+    const liElements = screen.getAllByRole('listitem');
+    expect(liElements).toHaveLength(3);
   });
 
-  test('clicking close button logs correct message', () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-
+  test("Vérification de l'eventHandler 'click' sur le bouton", () => {
     render(<Notifications />);
-
-    const button = screen.getByRole('button', { name: /close/i });
-    fireEvent.click(button);
-
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'Close button has been clicked'
-    );
-
+    const consoleSpy = jest.spyOn(console, 'log')
+    const closeButton = screen.getByRole('button');
+    fireEvent.click(closeButton);
+    expect(consoleSpy).toHaveBeenCalledWith('Close button has been clicked');
     consoleSpy.mockRestore();
   });
-
 });

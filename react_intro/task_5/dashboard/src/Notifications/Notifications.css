@@ -1,21 +1,25 @@
 .notification-items {
-  border: 2px dashed red;
-  padding: 15px;
-  width: 400px;
-  position: relative;
+  border: #e1003c dotted 2.5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.notification-items p {
+  margin-left : 1rem;
+}
+
+.notification-items button img {
+  width: 70%;
 }
 
 .notification-items ul {
-  margin-top: 10px;
-  padding-left: 20px;
+  width: 100%;
 }
 
-.notification-items li {
-  margin-bottom: 8px;
+li[data-priority='default'] {
+  color: blue;
 }
 
-.close-button {
-  position: absolute;
-  right: 10px;
-  top: 10px;
+li[data-priority='urgent'] {
+  color: red;
 }
