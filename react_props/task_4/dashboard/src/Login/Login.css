@@ -1,0 +1,20 @@
+.App-body {
+  text-align: justify;
+  flex: 1;
+  border-bottom: #e1003c solid 2.5px;
+}
+
+.App-body p {
+  margin-left: 1rem;
+}
+
+label[for='email'],
+label[for='password'],
+.App-body #email,
+.App-body #password {
+  margin-left: 0.5rem;
+}
+
+.App-body button {
+  margin-left: 1rem;
+}
