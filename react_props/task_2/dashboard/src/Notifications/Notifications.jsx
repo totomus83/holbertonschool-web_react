@@ -1,11 +1,11 @@
 import CloseButton from '../assets/close-button.png';
 import { getLatestNotification } from '../utils/utils';
+import NotificationItem from './NotificationItem';
 import './Notifications.css';
 
-function Notifications() {
+function Notifications({ notifications = [] }) {
   const handleClick = () => console.log('Close button has been clicked');
   return (
-
     <div className="notification-items">
       <p>Here is the list of notifications</p>
       <button aria-label='Close' style={{
@@ -21,12 +21,17 @@ function Notifications() {
         <img src={CloseButton} />
       </button>
       <ul>
-        <li data-priority="default">New course available</li>
-        <li data-priority="urgent">New resume available</li>
-        <li data-priority="urgent" dangerouslySetInnerHTML={{ __html: getLatestNotification() }}></li>
+        {notifications.map((notif) => (
+          <NotificationItem
+            key={notif.id}
+            type={notif.type}
+            value={notif.value}
+            html={notif.html}
+          />
+        ))}
       </ul>
     </div>
-  )
+  );
 }
 
 export default Notifications;
