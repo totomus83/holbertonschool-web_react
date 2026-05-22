@@ -23,7 +23,7 @@ function App({ isLoggedIn = false }) {
   return (
     <Fragment>
       <div className="root-notifications">
-        <Notifications notifications={notificationsList} />
+        <Notifications listNotifications={notificationsList} />
       </div>
       <Header />
       {isLoggedIn ? <CourseList courses={coursesList} /> : <Login />}
