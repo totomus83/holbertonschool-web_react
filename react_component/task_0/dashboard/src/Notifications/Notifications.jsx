@@ -4,17 +4,17 @@ import './Notifications.css';
 
 function Notifications({ listNotifications = [], displayDrawer = false }) {
   const handleClick = () => console.log('Close button has been clicked');
-  return (
-    <div>
-      <div className="notification-title">
-        <p>Your notifications</p>
-      </div>
-      {displayDrawer && (
-        <div className="notification-items">
-          <p>Here is the list of notifications</p>
-          <button
-            aria-label="Close"
-            style={{
+    return (
+      <div>
+        <div className="notification-title">
+          <p>Your notifications</p>
+        </div>
+        {displayDrawer && (
+          <div className="notification-items">
+            <p>Here is the list of notifications</p>
+            <button
+              aria-label="Close"
+              style={{
               width: '1.75rem',
               height: '1rem',
               marginTop: '0.25rem',
@@ -24,7 +24,7 @@ function Notifications({ listNotifications = [], displayDrawer = false }) {
               cursor: 'pointer',
             }}
             onClick={handleClick}
-          >
+            >
             <img src={CloseButton} alt="close" />
           </button>
           <ul>
@@ -46,3 +46,5 @@ function Notifications({ listNotifications = [], displayDrawer = false }) {
     </div>
   );
 }
+
+export default Notifications;
