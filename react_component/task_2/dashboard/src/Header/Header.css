@@ -1,0 +1,15 @@
+.App-header {
+  display: flex;
+  border-bottom: #e1003c solid 2.5px;
+}
+
+.App-header img {
+  width: 15%;
+}
+
+.App-header h1 {
+  align-content: center;
+  margin-left: 1rem;
+  color: #e1003c;
+  font-family: Arial, Helvetica, sans-serif;
+}
