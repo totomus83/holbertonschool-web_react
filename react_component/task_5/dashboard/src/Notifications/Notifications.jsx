@@ -4,6 +4,11 @@ import NotificationItem from './NotificationItem';
 import './Notifications.css';
 
 class Notifications extends Component {
+  shouldComponentUpdate(nextProps) {
+    return nextProps.listNotifications?.length !== this.props.listNotifications?.length ||
+           nextProps.notifications?.length !== this.props.notifications?.length;
+  }
+
   handleClick = () => console.log('Close button has been clicked');
 
   markAsRead = (id) => {

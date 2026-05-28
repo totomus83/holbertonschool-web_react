@@ -44,4 +44,23 @@ describe('Notifications component', () => {
     expect(consoleSpy).toHaveBeenCalledWith('Notification 1 has been marked as read');
     consoleSpy.mockRestore();
   });
+
+  test('does not re-render when the length of notifications prop stays the same', () => {
+    const sameList = [{ id: 1, type: 'default', value: 'New course available' }];
+    const { rerender } = render(<Notifications listNotifications={sameList} />);
+    const listItemsBefore = screen.getAllByRole('listitem');
+    rerender(<Notifications listNotifications={[{ id: 1, type: 'urgent', value: 'Changed value' }]} />);
+    const listItemsAfter = screen.getAllByRole('listitem');
+    expect(listItemsBefore.length).toBe(listItemsAfter.length);
+  });
+
+  test('re-renders when the length of notifications prop changes', () => {
+    const { rerender } = render(<Notifications listNotifications={[{ id: 1, type: 'default', value: 'One' }]} />);
+    expect(screen.getAllByRole('listitem')).toHaveLength(1);
+    rerender(<Notifications listNotifications={[
+      { id: 1, type: 'default', value: 'One' },
+      { id: 2, type: 'urgent', value: 'Two' },
+    ]} />);
+    expect(screen.getAllByRole('listitem')).toHaveLength(2);
+  });
 });
