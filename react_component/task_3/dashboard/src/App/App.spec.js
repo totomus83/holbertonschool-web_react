@@ -58,7 +58,7 @@ describe('App component', () => {
     expect(screen.getByRole('table')).toBeInTheDocument();
   });
 
-  test('logOut is called when Ctrl+H is pressed', () => {
+  test('logOut is called once when Ctrl+H is pressed', () => {
     const logOut = jest.fn();
     const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
     render(<App logOut={logOut} />);
@@ -73,5 +73,11 @@ describe('App component', () => {
     fireEvent.keyDown(window, { key: 'h', ctrlKey: true });
     expect(alertMock).toHaveBeenCalledWith('Logging you out');
     alertMock.mockRestore();
+  });
+
+  test('renders News from the School section with correct content', () => {
+    render(<App />);
+    expect(screen.getByRole('heading', { level: 2, name: /news from the school/i })).toBeInTheDocument();
+    expect(screen.getByText(/holberton school news goes here/i)).toBeInTheDocument();
   });
 });
