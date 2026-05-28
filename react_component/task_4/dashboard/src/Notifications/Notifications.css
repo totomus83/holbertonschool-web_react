@@ -1,0 +1,25 @@
+.notification-items {
+  border: #e1003c dotted 2.5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.notification-items p {
+  margin-left : 1rem;
+}
+
+.notification-items button img {
+  width: 70%;
+}
+
+.notification-items ul {
+  width: 100%;
+}
+
+li[data-priority='default'] {
+  color: blue;
+}
+
+li[data-priority='urgent'] {
+  color: red;
+}
