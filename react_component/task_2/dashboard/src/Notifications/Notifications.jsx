@@ -11,7 +11,8 @@ class Notifications extends Component {
   };
 
   render() {
-    const { listNotifications = [], displayDrawer = false } = this.props;
+    const { listNotifications = [], notifications = [], displayDrawer = true } = this.props;
+    const items = listNotifications.length > 0 ? listNotifications : notifications;
 
     return (
       <div>
@@ -37,10 +38,10 @@ class Notifications extends Component {
               <img src={CloseButton} alt="close" />
             </button>
             <ul>
-              {listNotifications.length === 0 ? (
+              {items.length === 0 ? (
                 <li>No new notification for now</li>
               ) : (
-                listNotifications.map((notif) => (
+                items.map((notif) => (
                   <NotificationItem
                     key={notif.id}
                     id={notif.id}
