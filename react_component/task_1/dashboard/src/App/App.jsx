@@ -31,13 +31,13 @@ class App extends Component {
   handleKeyDown = (e) => {
     if (e.ctrlKey && e.key === 'h') {
       alert('Logging you out');
-      const { logOut = () => {} } = this.props;
+      const { logOut } = this.props;
       logOut();
     }
   };
 
   render() {
-    const { isLoggedIn = false } = this.props;
+    const { isLoggedIn } = this.props;
 
     return (
       <Fragment>
@@ -51,5 +51,10 @@ class App extends Component {
     );
   }
 }
+
+App.defaultProps = {
+  isLoggedIn: false,
+  logOut: () => {},
+};
 
 export default App;
