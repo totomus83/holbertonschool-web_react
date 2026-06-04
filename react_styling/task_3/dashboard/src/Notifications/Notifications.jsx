@@ -3,12 +3,6 @@ import CloseButton from '../assets/close-button.png';
 import NotificationItem from './NotificationItem';
 
 class Notifications extends Component {
-  shouldComponentUpdate(nextProps) {
-    return nextProps.listNotifications?.length !== this.props.listNotifications?.length ||
-          nextProps.notifications?.length !== this.props.notifications?.length ||
-          nextProps.notifications !== this.props.notifications;
-  }
-
   handleClick = () => console.log('Close button has been clicked');
 
   markAsRead = (id) => {
@@ -16,8 +10,7 @@ class Notifications extends Component {
   };
 
   render() {
-    const { listNotifications = [], notifications, displayDrawer = true } = this.props;
-    const items = notifications !== undefined ? notifications : listNotifications;
+    const { notifications = [], displayDrawer = true } = this.props;
 
     return (
       <div className="w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
@@ -43,10 +36,10 @@ class Notifications extends Component {
               <img src={CloseButton} alt="close" />
             </button>
             <ul>
-              {items.length === 0 ? (
+              {notifications.length === 0 ? (
                 <li>No new notification for now</li>
               ) : (
-                items.map((notif) => (
+                notifications.map((notif) => (
                   <NotificationItem
                     key={notif.id}
                     id={notif.id}
