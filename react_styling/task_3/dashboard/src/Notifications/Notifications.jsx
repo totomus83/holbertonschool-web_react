@@ -5,7 +5,8 @@ import NotificationItem from './NotificationItem';
 class Notifications extends Component {
   shouldComponentUpdate(nextProps) {
     return nextProps.listNotifications?.length !== this.props.listNotifications?.length ||
-           nextProps.notifications?.length !== this.props.notifications?.length;
+          nextProps.notifications?.length !== this.props.notifications?.length ||
+          nextProps.notifications !== this.props.notifications;
   }
 
   handleClick = () => console.log('Close button has been clicked');
