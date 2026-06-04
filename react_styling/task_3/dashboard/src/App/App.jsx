@@ -42,10 +42,10 @@ class App extends Component {
 
     return (
       <Fragment>
-        <div className="root-notifications">
+        <Header />
+        <div className="flex justify-end">
           <Notifications notifications={notificationsList} />
         </div>
-        <Header />
         {isLoggedIn ? (
           <BodySectionWithMarginBottom title="Course list">
             <CourseList courses={coursesList} />
@@ -63,5 +63,10 @@ class App extends Component {
     );
   }
 }
+
+App.defaultProps = {
+  isLoggedIn: false,
+  logOut: () => {},
+};
 
 export default App;
