@@ -44,7 +44,7 @@ class App extends Component {
     return (
       <Fragment>
         <div className="root-notifications">
-          <Notifications listNotifications={notificationsList} />
+          <Notifications notifications={notificationsList} />
         </div>
         <Header />
         {isLoggedIn ? (
