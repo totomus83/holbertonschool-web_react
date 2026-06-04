@@ -36,21 +36,18 @@ class Notifications extends Component {
               <img src={CloseButton} alt="close" />
             </button>
             <ul>
-              {notifications.length === 0 ? (
-                <li>No new notification for now</li>
-              ) : (
-                notifications.map((notif) => (
-                  <NotificationItem
-                    key={notif.id}
-                    id={notif.id}
-                    type={notif.type}
-                    value={notif.value}
-                    html={notif.html}
-                    markAsRead={this.markAsRead}
-                  />
-                ))
-              )}
+              {notifications.map((notif) => (
+                <NotificationItem
+                  key={notif.id}
+                  id={notif.id}
+                  type={notif.type}
+                  value={notif.value}
+                  html={notif.html}
+                  markAsRead={this.markAsRead}
+                />
+              ))}
             </ul>
+            {notifications.length === 0 && <p>No new notification for now</p>}
           </div>
         )}
       </div>
