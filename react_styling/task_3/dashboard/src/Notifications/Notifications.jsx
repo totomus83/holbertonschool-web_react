@@ -15,8 +15,8 @@ class Notifications extends Component {
   };
 
   render() {
-    const { listNotifications = [], notifications = [], displayDrawer = true } = this.props;
-    const items = listNotifications.length > 0 ? listNotifications : notifications;
+    const { listNotifications = [], notifications, displayDrawer = true } = this.props;
+    const items = notifications !== undefined ? notifications : listNotifications;
 
     return (
       <div className="w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
