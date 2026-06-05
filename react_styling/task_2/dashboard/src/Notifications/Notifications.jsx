@@ -3,11 +3,6 @@ import CloseButton from '../assets/close-button.png';
 import NotificationItem from './NotificationItem';
 
 class Notifications extends Component {
-  shouldComponentUpdate(nextProps) {
-    return nextProps.listNotifications?.length !== this.props.listNotifications?.length ||
-           nextProps.notifications?.length !== this.props.notifications?.length;
-  }
-
   handleClick = () => console.log('Close button has been clicked');
 
   markAsRead = (id) => {
@@ -15,48 +10,68 @@ class Notifications extends Component {
   };
 
   render() {
-    const { listNotifications = [], notifications = [], displayDrawer = true } = this.props;
-    const items = listNotifications.length > 0 ? listNotifications : notifications;
+    const { notifications = [], displayDrawer = true } = this.props;
+
+    const isEmpty = notifications.length === 0;
+    const shouldBounce =
+      notifications.length > 0 && displayDrawer === false;
 
     return (
-      <div className="w-1/4 border-2 border-dashed border-(--main-color) p-1.5">
-        <div className="notification-title flex justify-end">
-          <p>Your notifications</p>
-        </div>
+      <div>
+        {/* TITLE */}
+        <p
+          className={`notification-title flex justify-end ${
+            shouldBounce ? 'animate-bounce' : ''
+          }`}
+        >
+          Your notifications
+        </p>
+
+        {/* PANEL */}
         {displayDrawer && (
-          <div className="notification-items p-1.5">
-            <p>Here is the list of notifications</p>
-            <button
-              aria-label="Close"
-              style={{
-                width: '1.75rem',
-                height: '1rem',
-                marginTop: '0.25rem',
-                marginLeft: 'auto',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-              onClick={this.handleClick}
-            >
-              <img src={CloseButton} alt="close" />
-            </button>
-            <ul>
-              {items.length === 0 ? (
-                <li>No new notification for now</li>
-              ) : (
-                items.map((notif) => (
-                  <NotificationItem
-                    key={notif.id}
-                    id={notif.id}
-                    type={notif.type}
-                    value={notif.value}
-                    html={notif.html}
-                    markAsRead={this.markAsRead}
-                  />
-                ))
+          <div
+            className="
+              w-[400px] ml-auto border-2 border-dashed border-[var(--main-color)] p-2
+              max-[912px]:w-full max-[912px]:fixed max-[912px]:inset-0
+              max-[912px]:z-50 max-[912px]:bg-white max-[912px]:p-3
+            "
+          >
+            <div className="notification-items relative p-3">
+
+              {/* ✅ EMPTY STATE (FAST + SIMPLE) */}
+              {isEmpty && (
+                <p>No new notification for now</p>
               )}
-            </ul>
+
+              {/* ✅ NON EMPTY */}
+              {!isEmpty && (
+                <>
+                  <button
+                    aria-label="Close"
+                    className="absolute top-2 right-2 w-6 h-6 cursor-pointer hover:opacity-70"
+                    onClick={this.handleClick}
+                  >
+                    <img src={CloseButton} alt="close" className="w-full h-full" />
+                  </button>
+
+                  <p className="mb-2">Here is the list of notifications</p>
+
+                  <ul>
+                    {notifications.map((notif) => (
+                      <NotificationItem
+                        key={notif.id}
+                        id={notif.id}
+                        type={notif.type}
+                        value={notif.value}
+                        html={notif.html}
+                        markAsRead={this.markAsRead}
+                      />
+                    ))}
+                  </ul>
+                </>
+              )}
+
+            </div>
           </div>
         )}
       </div>
