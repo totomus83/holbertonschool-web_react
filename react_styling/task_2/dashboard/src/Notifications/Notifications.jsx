@@ -12,13 +12,11 @@ class Notifications extends Component {
   render() {
     const { notifications = [], displayDrawer = true } = this.props;
 
-    const isEmpty = notifications.length === 0;
     const shouldBounce =
       notifications.length > 0 && displayDrawer === false;
 
     return (
       <div>
-        {/* TITLE */}
         <p
           className={`notification-title flex justify-end ${
             shouldBounce ? 'animate-bounce' : ''
@@ -27,48 +25,38 @@ class Notifications extends Component {
           Your notifications
         </p>
 
-        {/* PANEL */}
         {displayDrawer && (
-          <div
-            className="
-              w-[400px] ml-auto border-2 border-dashed border-[var(--main-color)] p-2
-              max-[912px]:w-full max-[912px]:fixed max-[912px]:inset-0
-              max-[912px]:z-50 max-[912px]:bg-white max-[912px]:p-3
-            "
-          >
+          <div className="w-[400px] ml-auto border-2 border-dashed border-[var(--main-color)] p-2">
             <div className="notification-items relative p-3">
 
-              {/* ✅ EMPTY STATE (FAST + SIMPLE) */}
-              {isEmpty && (
-                <p>No new notification for now</p>
-              )}
+              <p>Here is the list of notifications</p>
 
-              {/* ✅ NON EMPTY */}
-              {!isEmpty && (
-                <>
-                  <button
-                    aria-label="Close"
-                    className="absolute top-2 right-2 w-6 h-6 cursor-pointer hover:opacity-70"
-                    onClick={this.handleClick}
-                  >
-                    <img src={CloseButton} alt="close" className="w-full h-full" />
-                  </button>
+              {/* ALWAYS render UL (critical for tests) */}
+              <ul>
+                {notifications.length > 0 ? (
+                  notifications.map((notif) => (
+                    <NotificationItem
+                      key={notif.id}
+                      id={notif.id}
+                      type={notif.type}
+                      value={notif.value}
+                      html={notif.html}
+                      markAsRead={this.markAsRead}
+                    />
+                  ))
+                ) : (
+                  <li>No new notification for now</li>
+                )}
+              </ul>
 
-                  <p className="mb-2">Here is the list of notifications</p>
-
-                  <ul>
-                    {notifications.map((notif) => (
-                      <NotificationItem
-                        key={notif.id}
-                        id={notif.id}
-                        type={notif.type}
-                        value={notif.value}
-                        html={notif.html}
-                        markAsRead={this.markAsRead}
-                      />
-                    ))}
-                  </ul>
-                </>
+              {notifications.length > 0 && (
+                <button
+                  aria-label="Close"
+                  className="absolute top-2 right-2 w-6 h-6"
+                  onClick={this.handleClick}
+                >
+                  <img src={CloseButton} alt="close" />
+                </button>
               )}
 
             </div>
@@ -78,5 +66,10 @@ class Notifications extends Component {
     );
   }
 }
+
+Notifications.defaultProps = {
+  notifications: [],
+  displayDrawer: true,
+};
 
 export default Notifications;
