@@ -42,7 +42,10 @@ class App extends Component {
 
     return (
       <Fragment>
-        <Header />
+        <Header
+          notifications={notificationsList}
+          displayDrawer={true}
+        />
         <div className="flex">
           <div className="flex-1">
             {isLoggedIn ? (
@@ -58,7 +61,6 @@ class App extends Component {
               <p>Holberton School News goes here</p>
             </BodySection>
           </div>
-          <Notifications notifications={notificationsList} />
         </div>
         <Footer />
       </Fragment>
@@ -67,7 +69,7 @@ class App extends Component {
 }
 
 App.defaultProps = {
-  isLoggedIn: false,
+  isLoggedIn: true,
   logOut: () => {},
 };
 
