@@ -20,21 +20,25 @@ class Notifications extends Component {
           Your notifications
         </p>
 
-        <div
-          className="
-            w-[400px] ml-auto border-2 border-dashed border-[var(--main-color)] p-2
-            max-[912px]:w-full max-[912px]:fixed max-[912px]:inset-0
-            max-[912px]:z-50 max-[912px]:bg-white max-[912px]:p-3
-          "
-        >
-          {displayDrawer && (
+        {displayDrawer && (
+          <div
+            className="
+              w-[400px] ml-auto border-2 border-dashed border-[var(--main-color)] p-2
+              max-[912px]:w-full max-[912px]:fixed max-[912px]:inset-0
+              max-[912px]:z-50 max-[912px]:bg-white max-[912px]:p-3
+            "
+          >
             <div className="notification-items relative p-3 max-[912px]:h-full max-[912px]:overflow-y-auto">
 
-              {isEmpty ? (
-                <p className="text-gray-500">
+              {/* EMPTY STATE */}
+              {isEmpty && (
+                <p>
                   No new notification for now
                 </p>
-              ) : (
+              )}
+
+              {/* NON-EMPTY STATE */}
+              {!isEmpty && (
                 <>
                   <button
                     aria-label="Close"
@@ -62,8 +66,8 @@ class Notifications extends Component {
               )}
 
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     );
   }
