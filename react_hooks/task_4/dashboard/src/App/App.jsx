@@ -1,4 +1,5 @@
-import { useState, useCallback, Fragment } from 'react';
+import { useState, useCallback, useEffect, Fragment } from 'react';
+import axios from 'axios';
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
@@ -6,14 +7,7 @@ import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
-import { getLatestNotification } from '../utils/utils';
 import newContext from '../Context/context';
-
-const notificationsList = [
-  { id: 1, type: 'default', value: 'New course available' },
-  { id: 2, type: 'urgent', value: 'New resume available' },
-  { id: 3, type: 'urgent', html: getLatestNotification() },
-];
 
 const coursesList = [
   { id: 1, name: 'ES6', credit: 60 },
@@ -28,7 +22,13 @@ function App() {
     password: '',
     isLoggedIn: false,
   });
-  const [notifications, setNotifications] = useState(notificationsList);
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    axios.get('/notifications.json')
+      .then((res) => setNotifications(res.data))
+      .catch((err) => console.error('Failed to load notifications', err));
+  }, []);
 
   const handleDisplayDrawer = useCallback(() => {
     setDisplayDrawer(true);
