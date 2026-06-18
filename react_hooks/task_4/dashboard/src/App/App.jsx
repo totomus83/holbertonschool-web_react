@@ -54,10 +54,7 @@ function App() {
   return (
     <newContext.Provider value={{ user, logOut }}>
       <Fragment>
-        <Header
-          notifications={notifications}
-          displayDrawer={displayDrawer}
-        />
+        <Header />
 
         <div className="flex min-h-screen max-[912px]:flex-col">
           <div className="flex-1 max-[912px]:w-full">

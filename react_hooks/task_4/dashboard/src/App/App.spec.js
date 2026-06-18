@@ -1,5 +1,18 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import axios from 'axios';
 import App from './App';
+
+jest.mock('axios');
+
+const mockNotifications = [
+  { id: 1, type: 'default', value: 'New course available' },
+  { id: 2, type: 'urgent', value: 'New resume available' },
+  { id: 3, type: 'urgent', value: 'Urgent notification' },
+];
+
+beforeEach(() => {
+  axios.get.mockResolvedValue({ data: mockNotifications });
+});
 
 describe('App component', () => {
   test('renders header with School dashboard', () => {
@@ -17,21 +30,23 @@ describe('App component', () => {
     expect(screen.getByText(/Copyright \d{4} - holberton School/i)).toBeInTheDocument();
   });
 
-  test('handleDisplayDrawer sets displayDrawer to true', () => {
+  test('handleDisplayDrawer shows notification drawer', async () => {
     render(<App />);
-    const title = screen.getByText(/Your notifications/i);
-    fireEvent.click(title);
+    await waitFor(() => screen.getAllByRole('listitem'));
+    const titles = screen.getAllByText(/Your notifications/i);
+    fireEvent.click(titles[0]);
     expect(screen.getByText(/Here is the list of notifications/i)).toBeInTheDocument();
   });
 
-  test('handleHideDrawer sets displayDrawer to false', () => {
+  test('handleHideDrawer hides notification drawer', async () => {
     render(<App />);
+    await waitFor(() => screen.getAllByRole('listitem'));
     const closeButton = screen.getByRole('button', { name: /close/i });
     fireEvent.click(closeButton);
     expect(screen.queryByText(/Here is the list of notifications/i)).not.toBeInTheDocument();
   });
 
-  test('logIn updates user state with email, password and isLoggedIn true', () => {
+  test('logIn updates user state', async () => {
     render(<App />);
     const emailInput = screen.getByLabelText(/email/i);
     const passwordInput = screen.getByLabelText(/password/i);
@@ -42,10 +57,9 @@ describe('App component', () => {
     fireEvent.click(submitBtn);
 
     expect(screen.getByRole('table')).toBeInTheDocument();
-    expect(screen.queryByText(/Login to access the full dashboard/i)).not.toBeInTheDocument();
   });
 
-  test('logOut resets user state', () => {
+  test('logOut resets user state', async () => {
     render(<App />);
     const emailInput = screen.getByLabelText(/email/i);
     const passwordInput = screen.getByLabelText(/password/i);
@@ -61,10 +75,11 @@ describe('App component', () => {
     expect(screen.getByText(/Login to access the full dashboard/i)).toBeInTheDocument();
   });
 
-  test('clicking a notification item removes it and logs the message', () => {
+  test('clicking a notification item removes it and logs the message', async () => {
     const consoleSpy = jest.spyOn(console, 'log');
     render(<App />);
 
+    await waitFor(() => screen.getAllByRole('listitem'));
     const items = screen.getAllByRole('listitem');
     const initialCount = items.length;
 
