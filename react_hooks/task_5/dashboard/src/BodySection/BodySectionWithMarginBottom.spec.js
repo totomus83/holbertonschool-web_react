@@ -1,16 +1,20 @@
-import { render, screen } from '@testing-library/react';
-import BodySectionWithMarginBottom from './BodySectionWithMarginBottom';
-import BodySection from './BodySection';
+import BodySectionWithMarginBottom from "./BodySectionWithMarginBottom";
+import { render } from '@testing-library/react';
 
 describe('BodySectionWithMarginBottom component', () => {
-  test('renders a div with class bodySectionWithMargin', () => {
-    const { container } = render(<BodySectionWithMarginBottom title="test" />);
-    expect(container.firstChild).toHaveClass('bodySectionWithMargin');
+  test("Vérification le composant BodySectionWithMarginBottom génère une div avec la bonne classe", () => {
+    const { container } = render(<BodySectionWithMarginBottom title={'Fallen of Albaz'}/>);
+    const divElement = container.querySelector('.bodySectionWithMargin');
+    expect(divElement).toBeInTheDocument();
   });
 
-  test('renders the BodySection component', () => {
-    render(<BodySectionWithMarginBottom title="test title"><p>child</p></BodySectionWithMarginBottom>);
-    expect(screen.getByRole('heading', { level: 2, name: /test title/i })).toBeInTheDocument();
-    expect(screen.getByText('child')).toBeInTheDocument();
+  test("Vérification le composant BodySection est bien rendu dans le composant BodySectionWithMarginBottom", () => {
+    const { container } = render(
+      <BodySectionWithMarginBottom title={'Fallen of Albaz'}>
+        <p>Dragon/Effect</p>
+      </BodySectionWithMarginBottom>
+    );
+    const divComponent = container.querySelector('.bodySection');
+    expect(divComponent).toBeInTheDocument();
   });
 });

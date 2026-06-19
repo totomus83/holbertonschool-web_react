@@ -1,35 +1,28 @@
-import WithLogging from '../HOC/WithLogging';
-import CourseListRow from './CourseListRow';
+import CourseListRow from "./CourseListRow";
+import WithLogging from "../HOC/WithLogging";
 
 function CourseList({ courses = [] }) {
-  return (
-    <div className="w-4/5 mx-auto my-4 max-[912px]:w-full max-[912px]:px-2 overflow-x-auto">
-
-      <table id="CourseList" className="w-full min-w-[300px]">
-
-        <thead>
-          <CourseListRow textFirstCell="Available courses" isHeader={true} />
-          <CourseListRow textFirstCell="Course name" textSecondCell="Credit" isHeader={true} />
-        </thead>
-
-        <tbody>
-          {courses.length === 0 ? (
-            <CourseListRow textFirstCell="No course available yet" isHeader={false} />
-          ) : (
-            courses.map((course) => (
-              <CourseListRow
-                key={course.id}
-                textFirstCell={course.name}
-                textSecondCell={String(course.credit)}
-                isHeader={false}
-              />
-            ))
-          )}
-        </tbody>
-
+  return(
+    <div className="w-4/5 mx-auto py-20" id="CourseListContainer">
+      <table className="w-full border-collapse" id="CourseList">
+        {courses.length === 0 ? <tbody><CourseListRow isHeader={ true } textFirstCell='No course available yet' /></tbody>:
+        <>
+          <thead>
+            <CourseListRow isHeader={ true } textFirstCell='Available courses' />
+            <CourseListRow isHeader={ true } textFirstCell='Course name'  textSecondCell='Credit' />
+          </thead>
+          <tbody>
+            {courses.map((course) => (
+              <CourseListRow key={course.id} textFirstCell={course.name} textSecondCell={course.credit} />
+            ))}
+          </tbody>
+        </>
+        }
       </table>
     </div>
-  );
+  )
 }
 
-export default WithLogging(CourseList);
+const CourseListWithLogging = WithLogging(CourseList)
+
+export default CourseListWithLogging;

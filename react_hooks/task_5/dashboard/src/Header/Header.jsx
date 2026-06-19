@@ -1,24 +1,24 @@
 import { useContext } from 'react';
 import HbSLogo from '../assets/holberton-logo.jpg';
-import newContext from '../Context/context';
+import newContext from '../Context/context.js';
 
 function Header() {
   const { user, logOut } = useContext(newContext);
+
   return (
-    <div className="flex items-center justify-between border-b-2 border-(--main-color) p-2 max-[520px]:flex-col max-[520px]:items-start">
-      <div className="flex items-center max-[520px]:flex-col max-[520px]:items-start">
-        <img src={HbSLogo} alt="holberton logo" className="w-[200px]" />
-        <h1 className="ml-4 text-(--main-color) font-[Arial,Helvetica,sans-serif] max-[520px]:ml-0 max-[520px]:text-sm">
-          School dashboard
-        </h1>
+    <>
+      <div className='App-header flex flex-col md:flex-row items-center md:items-start mb-6'>
+        <img className='w-[35%] md:w-[15%]' src={HbSLogo} alt="holberton logo" />
+        <h1 className='self-center md:ml-4 text-[var(--main-color)] font-bold text-2xl sm:text-4xl'>School dashboard</h1>
       </div>
+
       {user.isLoggedIn && (
-        <p id="logoutSection">
-          Welcome {user.email} (<a href="#" onClick={logOut}>logout</a>)
-        </p>
+        <section id="logoutSection">
+          <p>Welcome <strong>{user.email}</strong> <a onClick={logOut} href="#">(logout)</a></p>
+        </section>
       )}
-    </div>
-  );
+    </>
+  )
 }
 
 export default Header;

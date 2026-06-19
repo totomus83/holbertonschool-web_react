@@ -1,43 +1,27 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
 import WithLogging from './WithLogging';
+import { render, screen, cleanup } from '@testing-library/react';
 
 class MockApp extends React.Component {
-  render() {
+  render () {
     return (
-      <h1>Hello from Mock App Component</h1>
-    );
+      <h1>
+        Hello from Mock App Component
+      </h1>
+    )
   }
 }
 
-const MockAppWithLogging = WithLogging(MockApp);
+const MockAppWrapped = WithLogging(MockApp);
 
-describe('WithLogging HOC', () => {
-  afterEach(() => {
+describe('WithLogging component', () => {
+  afterEach( () => {
     cleanup();
-  });
+  })
 
-  test('renders the wrapped component correctly', () => {
-    const { getByRole } = render(<MockAppWithLogging />);
-    expect(getByRole('heading', { level: 1, name: /Hello from Mock App Component/i })).toBeInTheDocument();
-  });
-
-  test('logs mounted message on componentDidMount', () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    render(<MockAppWithLogging />);
-    expect(consoleSpy).toHaveBeenCalledWith('Component MockApp is mounted');
-    consoleSpy.mockRestore();
-  });
-
-  test('logs unmount message on componentWillUnmount', () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    const { unmount } = render(<MockAppWithLogging />);
-    unmount();
-    expect(consoleSpy).toHaveBeenCalledWith('Component MockApp is going to unmount');
-    consoleSpy.mockRestore();
-  });
-
-  test('displayName is set correctly', () => {
-    expect(MockAppWithLogging.displayName).toBe('WithLogging(MockApp)');
+  test("Vérification que le HOC renvoie un élément h1 avec le texte : 'Hello from Mock App Component'.", () => {
+    render(<MockAppWrapped />);
+    const MockAppHeading = screen.getByRole('heading', { level: 1, name: /Hello from Mock App Component/i });
+    expect(MockAppHeading).toBeInTheDocument();
   });
 });

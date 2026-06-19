@@ -1,6 +1,13 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import newContext from '../Context/context.js';
 import Header from './Header';
-import newContext from '../Context/context';
+
+const userTest = {
+  email: 'fallen.albaz@gmail.com',
+  password: 'azertyuiop',
+  isLoggedIn: true,
+}
 
 describe('Header component', () => {
   test('Vérification texte h1 App-header', () => {
@@ -15,37 +22,38 @@ describe('Header component', () => {
     expect(headerImgAlt).toBeInTheDocument();
   });
 
-  test('logoutSection is not rendered with default context value', () => {
+  // Tests avec le contexte
+  test("Vérification de l'absence de la section #logoutSection par défaut", () => {
     render(<Header />);
-    expect(document.getElementById('logoutSection')).not.toBeInTheDocument();
+    const section = document.querySelector('#logoutSection');
+    expect(section).not.toBeInTheDocument();
   });
 
-  test('logoutSection is rendered when isLoggedIn is true', () => {
-    const contextValue = {
-      user: { email: 'test@example.com', password: 'password123', isLoggedIn: true },
-      logOut: () => {},
-    };
+  test("Vérification de la présence de la section #logoutSection quand le contexte de l'user a isLoggedIn à true.", () => {
     render(
-      <newContext.Provider value={contextValue}>
+      <newContext.Provider value={{user: userTest, logOut: () => {}}}>
         <Header />
       </newContext.Provider>
     );
-    expect(document.getElementById('logoutSection')).toBeInTheDocument();
+    const section = document.querySelector('#logoutSection');
+    expect(section).toBeInTheDocument();
   });
 
-  test('clicking on logout link calls the logOut function', () => {
+  test("Vérification de l'appel à la fonction logOut quand on clique sur '(logout)' quand le contexte de l'user a isLoggedIn à true", async () => {
+    const user = userEvent.setup();
+
     const logOutSpy = jest.fn();
-    const contextValue = {
-      user: { email: 'test@example.com', password: 'password123', isLoggedIn: true },
-      logOut: logOutSpy,
-    };
     render(
-      <newContext.Provider value={contextValue}>
+      <newContext.Provider value={{user: userTest, logOut: logOutSpy}}>
         <Header />
       </newContext.Provider>
     );
-    const logoutLink = screen.getByText(/logout/i);
-    fireEvent.click(logoutLink);
+    const section = document.querySelector('#logoutSection');
+    expect(section).toBeInTheDocument();
+
+    const logoutLink = screen.getByRole('link', { name: /logout/i });
+    await user.click(logoutLink);
+
     expect(logOutSpy).toHaveBeenCalledTimes(1);
   });
 });
