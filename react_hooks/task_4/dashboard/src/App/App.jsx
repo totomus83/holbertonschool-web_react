@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, Fragment } from 'react';
+import axios from 'axios';
 import Notifications from '../Notifications/Notifications';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
@@ -22,13 +23,12 @@ function App() {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await fetch('/notifications.json');
-        const data = await res.json();
-        const mapped = data.map((notif) => {
+        const res = await axios.get('/notifications.json');
+        const data = res.data.map((notif) => {
           if (notif.id === 3) return { ...notif, html: getLatestNotification() };
           return notif;
         });
-        setNotifications(mapped);
+        setNotifications(data);
       } catch (err) {
         console.error('Failed to load notifications', err);
       }
@@ -39,9 +39,8 @@ function App() {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await fetch('/courses.json');
-        const data = await res.json();
-        setCourses(data);
+        const res = await axios.get('/courses.json');
+        setCourses(res.data);
       } catch (err) {
         console.error('Failed to load courses', err);
       }

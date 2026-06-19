@@ -1,5 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import axios from 'axios';
 import App from './App';
+
+jest.mock('axios');
 
 const mockNotifications = [
   { id: 1, type: 'default', value: 'New course available' },
@@ -14,14 +17,10 @@ const mockCourses = [
 ];
 
 beforeEach(() => {
-  global.fetch = jest.fn((url) => {
-    if (url === '/notifications.json') {
-      return Promise.resolve({ json: () => Promise.resolve(mockNotifications) });
-    }
-    if (url === '/courses.json') {
-      return Promise.resolve({ json: () => Promise.resolve(mockCourses) });
-    }
-    return Promise.resolve({ json: () => Promise.resolve([]) });
+  axios.get.mockImplementation((url) => {
+    if (url === '/notifications.json') return Promise.resolve({ data: mockNotifications });
+    if (url === '/courses.json') return Promise.resolve({ data: mockCourses });
+    return Promise.resolve({ data: [] });
   });
 });
 
@@ -47,7 +46,7 @@ describe('App component', () => {
 
   test('notifications are fetched on initial render', async () => {
     render(<App />);
-    await waitFor(() => expect(fetch).toHaveBeenCalledWith('/notifications.json'));
+    await waitFor(() => expect(axios.get).toHaveBeenCalledWith('/notifications.json'));
     const title = screen.getByText(/Your notifications/i);
     fireEvent.click(title);
     await waitFor(() => expect(screen.getAllByRole('listitem')).toHaveLength(3));
@@ -63,13 +62,13 @@ describe('App component', () => {
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
     fireEvent.click(submitBtn);
 
-    await waitFor(() => expect(fetch).toHaveBeenCalledWith('/courses.json'));
+    await waitFor(() => expect(axios.get).toHaveBeenCalledWith('/courses.json'));
     await waitFor(() => expect(screen.getByRole('table')).toBeInTheDocument());
   });
 
   test('handleDisplayDrawer shows notification drawer', async () => {
     render(<App />);
-    await waitFor(() => expect(fetch).toHaveBeenCalled());
+    await waitFor(() => expect(axios.get).toHaveBeenCalled());
     const title = screen.getByText(/Your notifications/i);
     fireEvent.click(title);
     await waitFor(() => expect(screen.getByText(/Here is the list of notifications/i)).toBeInTheDocument());
@@ -77,7 +76,7 @@ describe('App component', () => {
 
   test('handleHideDrawer hides notification drawer', async () => {
     render(<App />);
-    await waitFor(() => expect(fetch).toHaveBeenCalled());
+    await waitFor(() => expect(axios.get).toHaveBeenCalled());
     const title = screen.getByText(/Your notifications/i);
     fireEvent.click(title);
     await waitFor(() => screen.getByRole('button', { name: /close/i }));
@@ -105,7 +104,7 @@ describe('App component', () => {
     const consoleSpy = jest.spyOn(console, 'log');
     render(<App />);
 
-    await waitFor(() => expect(fetch).toHaveBeenCalled());
+    await waitFor(() => expect(axios.get).toHaveBeenCalled());
     const title = screen.getByText(/Your notifications/i);
     fireEvent.click(title);
 
