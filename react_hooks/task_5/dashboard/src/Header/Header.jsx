@@ -1,0 +1,24 @@
+import { useContext } from 'react';
+import HbSLogo from '../assets/holberton-logo.jpg';
+import newContext from '../Context/context';
+
+function Header() {
+  const { user, logOut } = useContext(newContext);
+  return (
+    <div className="flex items-center justify-between border-b-2 border-(--main-color) p-2 max-[520px]:flex-col max-[520px]:items-start">
+      <div className="flex items-center max-[520px]:flex-col max-[520px]:items-start">
+        <img src={HbSLogo} alt="holberton logo" className="w-[200px]" />
+        <h1 className="ml-4 text-(--main-color) font-[Arial,Helvetica,sans-serif] max-[520px]:ml-0 max-[520px]:text-sm">
+          School dashboard
+        </h1>
+      </div>
+      {user.isLoggedIn && (
+        <p id="logoutSection">
+          Welcome {user.email} (<a href="#" onClick={logOut}>logout</a>)
+        </p>
+      )}
+    </div>
+  );
+}
+
+export default Header;
