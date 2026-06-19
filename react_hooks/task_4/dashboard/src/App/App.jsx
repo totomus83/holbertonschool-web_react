@@ -7,13 +7,8 @@ import Footer from '../Footer/Footer';
 import CourseList from '../CourseList/CourseList';
 import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
+import { getLatestNotification } from '../utils/utils';
 import newContext from '../Context/context';
-
-const coursesList = [
-  { id: 1, name: 'ES6', credit: 60 },
-  { id: 2, name: 'Webpack', credit: 20 },
-  { id: 3, name: 'React', credit: 40 },
-];
 
 function App() {
   const [displayDrawer, setDisplayDrawer] = useState(false);
@@ -23,12 +18,37 @@ function App() {
     isLoggedIn: false,
   });
   const [notifications, setNotifications] = useState([]);
+  const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    axios.get('/notifications.json')
-      .then((res) => setNotifications(res.data))
-      .catch((err) => console.error('Failed to load notifications', err));
+    const fetchNotifications = async () => {
+      try {
+        const res = await axios.get('/notifications.json');
+        const data = res.data.map((notif) => {
+          if (notif.id === 3) {
+            return { ...notif, html: getLatestNotification() };
+          }
+          return notif;
+        });
+        setNotifications(data);
+      } catch (err) {
+        console.error('Failed to load notifications', err);
+      }
+    };
+    fetchNotifications();
   }, []);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await axios.get('/courses.json');
+        setCourses(res.data);
+      } catch (err) {
+        console.error('Failed to load courses', err);
+      }
+    };
+    fetchCourses();
+  }, [user]);
 
   const handleDisplayDrawer = useCallback(() => {
     setDisplayDrawer(true);
@@ -60,7 +80,7 @@ function App() {
           <div className="flex-1 max-[912px]:w-full">
             {user.isLoggedIn ? (
               <BodySectionWithMarginBottom title="Course list">
-                <CourseList courses={coursesList} />
+                <CourseList courses={courses} />
               </BodySectionWithMarginBottom>
             ) : (
               <BodySectionWithMarginBottom title="Log in to continue">
