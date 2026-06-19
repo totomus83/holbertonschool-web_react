@@ -54,47 +54,50 @@ describe('App component', () => {
   });
 
   test("Vérification que le bouton soit désactivé quand l'email est invalide", async () => {
-    render(<Login />);
-    const user = userEvent.setup();
-    const invalidEmails = [
-      'Raidraptors',
-      'fallen@',
-      'fallen@albaz',
-      'hakuyoku.Ciel@.c',
-      '@gmail.com'
-    ];
-    const emailInput = screen.getByLabelText(/email/i);
-    const passwordInput = screen.getByLabelText(/password/i);
-    const formButton = screen.getByRole('button', { name: /OK/i });
+      render(<Login />);
+      const user = userEvent.setup();
+      // Déclaration des différentes valeurs invalides
+      const invalidEmails = [
+        'Raidraptors',
+        'fallen@',
+        'fallen@albaz',
+        'hakuyoku.Ciel@.c',
+        '@gmail.com'
+      ]
+      const emailInput = screen.getByLabelText(/email/i);
+      const passwordInput = screen.getByLabelText(/password/i);
+      const formButton = screen.getByRole('button', { name: /OK/i });
 
-    await user.type(passwordInput, 'Azertyuiop');
+      await user.type(passwordInput, 'Azertyuiop');
 
-    for (const invalidEmail of invalidEmails) {
+      for (const invalidEmail of invalidEmails) {
+        await user.clear(emailInput);
+        await user.type(emailInput, invalidEmail);
+        expect(formButton).toBeDisabled();
+      }
+
       await user.clear(emailInput);
-      await user.type(emailInput, invalidEmail);
+      await user.type(emailInput, 'fallen.albaz@gmail.com');
+      expect(formButton).toBeEnabled();
+    });
+
+    test("Vérification que le bouton soit désactivé quand le password fait moins de 8 caractères", async () => {
+      render(<Login />);
+      const user = userEvent.setup();
+
+      const emailInput = screen.getByLabelText(/email/i);
+      const passwordInput = screen.getByLabelText(/password/i);
+      const formButton = screen.getByRole('button', { name: /OK/i });
+
+      await user.type(emailInput, 'fallen.albaz@gmail.com');
+      // Test avec 7 caractères
+      await user.type(passwordInput, 'Azertyu');
       expect(formButton).toBeDisabled();
-    }
 
-    await user.clear(emailInput);
-    await user.type(emailInput, 'fallen.albaz@gmail.com');
-    expect(formButton).toBeEnabled();
-  });
-
-  test("Vérification que le bouton soit désactivé quand le password fait moins de 8 caractères", async () => {
-    render(<Login />);
-    const user = userEvent.setup();
-
-    const emailInput = screen.getByLabelText(/email/i);
-    const passwordInput = screen.getByLabelText(/password/i);
-    const formButton = screen.getByRole('button', { name: /OK/i });
-
-    await user.type(emailInput, 'fallen.albaz@gmail.com');
-    await user.type(passwordInput, 'Azertyu');
-    expect(formButton).toBeDisabled();
-
-    await user.type(passwordInput, 'iop');
-    expect(formButton).toBeEnabled();
-  });
+      // On rajoute 3 caractères, ce qui fait un total de 10 caractères.
+      await user.type(passwordInput, 'iop');
+      expect(formButton).toBeEnabled();
+    });
 
   test('Vérification que le bouton soit activé quand les champs sont correctement remplis', async () => {
     render(<Login />);
@@ -114,6 +117,7 @@ describe('App component', () => {
     const logInSpy = jest.fn();
     render(<Login logIn={logInSpy} />);
 
+    // Simumation de la connexion
     const user = userEvent.setup();
 
     const emailInput = screen.getByLabelText(/email/i);
