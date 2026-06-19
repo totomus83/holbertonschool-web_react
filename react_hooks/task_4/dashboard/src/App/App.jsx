@@ -16,7 +16,7 @@ const coursesList = [
 ];
 
 function App() {
-  const [displayDrawer, setDisplayDrawer] = useState(true);
+  const [displayDrawer, setDisplayDrawer] = useState(false);
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -25,7 +25,7 @@ function App() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    axios.get('/holbertonschool-web_react/notifications.json')
+    axios.get('/notifications.json')
       .then((res) => setNotifications(res.data))
       .catch((err) => console.error('Failed to load notifications', err));
   }, []);

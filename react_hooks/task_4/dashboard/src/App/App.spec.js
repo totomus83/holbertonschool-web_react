@@ -32,15 +32,18 @@ describe('App component', () => {
 
   test('handleDisplayDrawer shows notification drawer', async () => {
     render(<App />);
-    await waitFor(() => screen.getAllByRole('listitem'));
-    const titles = screen.getAllByText(/Your notifications/i);
-    fireEvent.click(titles[0]);
+    await waitFor(() => expect(axios.get).toHaveBeenCalled());
+    const title = screen.getByText(/Your notifications/i);
+    fireEvent.click(title);
     expect(screen.getByText(/Here is the list of notifications/i)).toBeInTheDocument();
   });
 
   test('handleHideDrawer hides notification drawer', async () => {
     render(<App />);
-    await waitFor(() => screen.getAllByRole('listitem'));
+    await waitFor(() => expect(axios.get).toHaveBeenCalled());
+    const title = screen.getByText(/Your notifications/i);
+    fireEvent.click(title);
+    await waitFor(() => screen.getByRole('button', { name: /close/i }));
     const closeButton = screen.getByRole('button', { name: /close/i });
     fireEvent.click(closeButton);
     expect(screen.queryByText(/Here is the list of notifications/i)).not.toBeInTheDocument();
@@ -78,6 +81,10 @@ describe('App component', () => {
   test('clicking a notification item removes it and logs the message', async () => {
     const consoleSpy = jest.spyOn(console, 'log');
     render(<App />);
+
+    await waitFor(() => expect(axios.get).toHaveBeenCalled());
+    const title = screen.getByText(/Your notifications/i);
+    fireEvent.click(title);
 
     await waitFor(() => screen.getAllByRole('listitem'));
     const items = screen.getAllByRole('listitem');
