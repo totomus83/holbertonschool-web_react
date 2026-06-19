@@ -25,7 +25,7 @@ function App() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    axios.get('/notifications.json')
+    axios.get('/holbertonschool-web_react/notifications.json')
       .then((res) => setNotifications(res.data))
       .catch((err) => console.error('Failed to load notifications', err));
   }, []);
