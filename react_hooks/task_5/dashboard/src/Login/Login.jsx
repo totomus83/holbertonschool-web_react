@@ -1,15 +1,8 @@
 import WithLogging from '../HOC/WithLogging';
 import useLogin from '../hooks/useLogin';
 
-function Login({ logIn = () => {} }) {
-  const {
-    email,
-    password,
-    enableSubmit,
-    handleChangeEmail,
-    handleChangePassword,
-    handleLoginSubmit,
-  } = useLogin(logIn);
+function Login({ logIn }) {
+  const { email, password, enableSubmit, handleChangeEmail, handleChangePassword, handleLoginSubmit } = useLogin(logIn);
 
   return (
     <div className="App-body text-justify flex-1 border-b-2 border-[var(--main-color)]">
@@ -49,4 +42,9 @@ function Login({ logIn = () => {} }) {
   );
 }
 
-export default WithLogging(Login);
+Login.defaultProps = {
+  logIn: () => {},
+};
+
+const LoginWithLogging = WithLogging(Login);
+export default LoginWithLogging;

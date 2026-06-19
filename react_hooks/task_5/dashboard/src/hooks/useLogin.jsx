@@ -1,37 +1,32 @@
 import { useState } from 'react';
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
 
 function useLogin(onLogin) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [enableSubmit, setEnableSubmit] = useState(false);
 
-  const validate = (newEmail, newPassword) => {
-    return EMAIL_REGEX.test(newEmail) && newPassword.length >= 8;
+  const handleLoginSubmit = (event) => {
+    event.preventDefault();
+    onLogin(formData.email, formData.password);
   };
 
-  const handleChangeEmail = (e) => {
-    const newEmail = e.target.value;
-    setEmail(newEmail);
-    setEnableSubmit(validate(newEmail, password));
+  const handleChangeEmail = (event) => {
+    const newEmail = event.target.value;
+    setFormData({ email: newEmail, password: formData.password });
+    setEnableSubmit(emailRegex.test(newEmail) && formData.password.length >= 8);
   };
 
-  const handleChangePassword = (e) => {
-    const newPassword = e.target.value;
-    setPassword(newPassword);
-    setEnableSubmit(validate(email, newPassword));
-  };
-
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    if (onLogin) onLogin(email, password);
+  const handleChangePassword = (event) => {
+    const newPassword = event.target.value;
+    setFormData({ email: formData.email, password: newPassword });
+    setEnableSubmit(newPassword.length >= 8 && emailRegex.test(formData.email));
   };
 
   return {
-    email,
-    password,
-    enableSubmit,
+    email: formData.email,
+    password: formData.password,
+    enableSubmit: enableSubmit,
     handleChangeEmail,
     handleChangePassword,
     handleLoginSubmit,
