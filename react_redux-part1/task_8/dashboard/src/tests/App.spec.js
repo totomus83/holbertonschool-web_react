@@ -72,3 +72,35 @@ test('fetches and displays notifications on mount', async () => {
     expect(screen.getByText(/New course available/i)).toBeInTheDocument();
   });
 });
+
+test('does NOT fetch courses when isLoggedIn is false', async () => {
+  renderWithStore({
+    auth: { user: { email: '', password: '' }, isLoggedIn: false }
+  });
+
+  mockAxios.mockResponse(mockNotificationsResponse);
+
+  await waitFor(() => {
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+  });
+
+  const coursesCall = mockAxios.get.mock.calls.find(
+    (call) => call[0].includes('courses.json')
+  );
+  expect(coursesCall).toBeUndefined();
+});
+
+test('fetches courses only when isLoggedIn is true', async () => {
+  renderWithStore({
+    auth: { user: { email: 'test@test.com', password: 'password123' }, isLoggedIn: true }
+  });
+
+  mockAxios.mockResponse(mockNotificationsResponse);
+
+  await waitFor(() => {
+    const coursesCall = mockAxios.get.mock.calls.find(
+      (call) => call[0].includes('courses.json')
+    );
+    expect(coursesCall).toBeDefined();
+  });
+});
