@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 });
 
 const Notifications = memo(function Notifications() {
-  const { notifications } = useSelector((state) => state.notifications);
+  const { notifications, loading } = useSelector((state) => state.notifications);
   const dispatch = useDispatch();
   const DrawerRef = useRef(null);
 
@@ -106,11 +106,10 @@ const Notifications = memo(function Notifications() {
       <div className={css(styles.menuItem)} onClick={handleToggleDrawer}>
         Your notifications
       </div>
-      <div
-        ref={DrawerRef}
-        className={css(styles.notificationItems)}
-      >
-        {notifications.length > 0 ? (
+      <div ref={DrawerRef} className={css(styles.notificationItems)}>
+        {loading ? (
+          <p className={css(styles.p)}>Loading...</p>
+        ) : notifications.length > 0 ? (
           <>
             <p className={css(styles.p)}>Here is the list of notifications</p>
             <button

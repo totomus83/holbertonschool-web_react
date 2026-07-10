@@ -9,6 +9,7 @@ const ENDPOINTS = {
 
 const initialState = {
   notifications: [],
+  loading: false,
 };
 
 export const fetchNotifications = createAsyncThunk(
@@ -50,9 +51,17 @@ const notificationsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchNotifications.fulfilled, (state, action) => {
-      state.notifications = action.payload;
-    });
+    builder
+      .addCase(fetchNotifications.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchNotifications.fulfilled, (state, action) => {
+        state.loading = false;
+        state.notifications = action.payload;
+      })
+      .addCase(fetchNotifications.rejected, (state) => {
+        state.loading = false;
+      });
   }
 });
 

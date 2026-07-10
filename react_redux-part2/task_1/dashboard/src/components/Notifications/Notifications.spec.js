@@ -22,7 +22,18 @@ function renderWithStore(preloadedState) {
   };
 }
 
-test('displays notification items fetched from the API', async () => {
+test('displays loading indicator while fetching', () => {
+  const { store } = renderWithStore({
+    notifications: { notifications: [], loading: true }
+  });
+
+  const menuItem = screen.getByText(/Your notifications/i);
+  fireEvent.click(menuItem);
+
+  expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+});
+
+test('displays notification items after loading', async () => {
   const { store } = renderWithStore();
 
   store.dispatch(fetchNotifications());
@@ -47,7 +58,7 @@ test('displays notification items fetched from the API', async () => {
 
 test('toggles drawer visibility using visible style on click', () => {
   renderWithStore({
-    notifications: { notifications: [] }
+    notifications: { notifications: [], loading: false }
   });
 
   const menuItem = screen.getByText(/Your notifications/i);
@@ -65,7 +76,8 @@ test('close button toggles drawer visibility', () => {
     notifications: {
       notifications: [
         { id: 1, type: 'default', value: 'New course available' },
-      ]
+      ],
+      loading: false
     }
   });
 
@@ -85,7 +97,8 @@ test('marks a notification as read and removes it from the list', () => {
       notifications: [
         { id: 1, type: 'default', value: 'New course available' },
         { id: 2, type: 'urgent', value: 'New resume available' }
-      ]
+      ],
+      loading: false
     }
   });
 
