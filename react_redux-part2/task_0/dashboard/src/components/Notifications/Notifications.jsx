@@ -10,6 +10,12 @@ const opacityKeyframes = {
   to: { opacity: 1 },
 };
 
+const [isVisible, setIsVisible] = useState(false);
+
+const handleToggleDrawer = () => {
+  setIsVisible(prev => !prev);
+};
+
 const bounceKeyframes = {
   "0%": { transform: "translateY(0px)" },
   "50%": { transform: "translateY(-5px)" },
@@ -106,7 +112,10 @@ const Notifications = memo(function Notifications() {
       <div className={css(styles.menuItem)} onClick={handleToggleDrawer}>
         Your notifications
       </div>
-      <div ref={DrawerRef} data-visible="false" className={css(styles.notificationItems)}>
+      <div
+        ref={DrawerRef}
+        className={css(styles.notificationItems, isVisible && styles.visible)}
+      >
         {notifications.length > 0 ? (
           <>
             <p className={css(styles.p)}>Here is the list of notifications</p>
