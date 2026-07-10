@@ -86,7 +86,14 @@ const Notifications = memo(function Notifications() {
 
   const handleToggleDrawer = () => {
     if (DrawerRef.current) {
-      DrawerRef.current.classList.toggle("visible");
+      const el = DrawerRef.current;
+      if (el.classList.contains("visible")) {
+        el.classList.remove("visible");
+        el.classList.remove(css(styles.visible));
+      } else {
+        el.classList.add("visible");
+        el.classList.add(css(styles.visible));
+      }
     }
   };
 
