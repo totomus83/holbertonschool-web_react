@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, within, fireEvent } from '@testing-library/react';
 import CourseListRow from './CourseListRow';
 
 test('renders as header with one cell spanning two columns', () => {
@@ -41,4 +41,23 @@ test('renders as a regular row with two cells', () => {
   const trElement = screen.getByRole('row');
   const tdElements = within(trElement).getAllByRole('cell');
   expect(tdElements).toHaveLength(3);
+});
+test('calls changeRow with correct id and checked value when checkbox is changed', () => {
+  const changeRow = jest.fn();
+  render(
+    <table>
+      <tbody>
+        <CourseListRow
+          isHeader={false}
+          textFirstCell="Data1"
+          textSecondCell="Data2"
+          id="1"
+          changeRow={changeRow}
+        />
+      </tbody>
+    </table>
+  );
+  const checkbox = screen.getByRole('checkbox');
+  fireEvent.click(checkbox);
+  expect(changeRow).toHaveBeenCalledWith('1', true);
 });
