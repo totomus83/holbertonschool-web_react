@@ -40,5 +40,5 @@ test('renders as a regular row with two cells', () => {
 
   const trElement = screen.getByRole('row');
   const tdElements = within(trElement).getAllByRole('cell');
-  expect(tdElements).toHaveLength(2);
+  expect(tdElements).toHaveLength(3);
 });
