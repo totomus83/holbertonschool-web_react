@@ -1,4 +1,4 @@
-import { memo, useRef } from "react";
+import { memo, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { StyleSheet, css } from "aphrodite";
 import closeIcon from "../../assets/close-icon.png";
@@ -8,12 +8,6 @@ import { markNotificationAsRead } from "../../features/notifications/notificatio
 const opacityKeyframes = {
   from: { opacity: 0.5 },
   to: { opacity: 1 },
-};
-
-const [isVisible, setIsVisible] = useState(false);
-
-const handleToggleDrawer = () => {
-  setIsVisible(prev => !prev);
 };
 
 const bounceKeyframes = {
@@ -89,18 +83,10 @@ const Notifications = memo(function Notifications() {
   const { notifications } = useSelector((state) => state.notifications);
   const dispatch = useDispatch();
   const DrawerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleToggleDrawer = () => {
-    if (DrawerRef.current) {
-      const el = DrawerRef.current;
-      const isVisible = el.getAttribute('data-visible') === 'true';
-      el.setAttribute('data-visible', !isVisible);
-      if (!isVisible) {
-        el.classList.add(css(styles.visible));
-      } else {
-        el.classList.remove(css(styles.visible));
-      }
-    }
+    setIsVisible((prev) => !prev);
   };
 
   const handleMarkNotificationAsRead = (id) => {
