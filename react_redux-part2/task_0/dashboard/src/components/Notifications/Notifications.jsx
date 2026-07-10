@@ -87,11 +87,12 @@ const Notifications = memo(function Notifications() {
   const handleToggleDrawer = () => {
     if (DrawerRef.current) {
       const el = DrawerRef.current;
-      const visibleClass = css(styles.visible);
-      if (el.classList.contains(visibleClass)) {
-        el.classList.remove(visibleClass);
+      const isVisible = el.getAttribute('data-visible') === 'true';
+      el.setAttribute('data-visible', !isVisible);
+      if (!isVisible) {
+        el.classList.add(css(styles.visible));
       } else {
-        el.classList.add(visibleClass);
+        el.classList.remove(css(styles.visible));
       }
     }
   };
@@ -105,7 +106,7 @@ const Notifications = memo(function Notifications() {
       <div className={css(styles.menuItem)} onClick={handleToggleDrawer}>
         Your notifications
       </div>
-      <div ref={DrawerRef} className={css(styles.notificationItems)}>
+      <div ref={DrawerRef} data-visible="false" className={css(styles.notificationItems)}>
         {notifications.length > 0 ? (
           <>
             <p className={css(styles.p)}>Here is the list of notifications</p>
